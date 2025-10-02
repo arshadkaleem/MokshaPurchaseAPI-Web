@@ -1,8 +1,8 @@
 /**
- * Axios client with JWT interceptors
+ * Axios client with automatic response unwrapping
  */
 
-import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { ApiError } from '@/types';
 
 const apiClient = axios.create({
@@ -10,13 +10,12 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, // 10 seconds
+  timeout: 10000,
 });
 
-// Request interceptor: Add JWT token to all requests
+// Request interceptor: Add JWT token
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // Get token from localStorage (client-side only)
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('token');
       if (token && config.headers) {
@@ -25,21 +24,34 @@ apiClient.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Response interceptor: Handle 401 errors (token expired/invalid)
+// Response interceptor: Unwrap ApiResponse and handle errors
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response: AxiosResponse) => {
+    // ✅ Automatically unwrap the 'data' from ApiResponse<T>
+    // Backend returns: { data: T, message: string, timestamp: string }
+    // We transform it to just return: T (the actual data)
+    if (response.data && typeof response.data === 'object' && 'data' in response.data) {
+      return {
+        ...response,
+        data: response.data.data, // Unwrap nested data
+        // Store message and timestamp in custom properties if needed
+        _message: response.data.message,
+        _timestamp: response.data.timestamp,
+      };
+    }
+    return response;
+  },
   (error: AxiosError<ApiError>) => {
     if (error.response?.status === 401) {
-      // Clear token and redirect to login
       if (typeof window !== 'undefined') {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        window.location.href = '/login';
+        if (!window.location.pathname.includes('/login')) {
+          window.location.href = '/login';
+        }
       }
     }
     return Promise.reject(error);

@@ -1,5 +1,5 @@
 /**
- * Authentication-related types
+ * Authentication types
  */
 
 import { UserRole } from '@/types/enums/user-role.enum';
@@ -9,23 +9,17 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface RegisterRequest {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  name: string;
-  role?: UserRole;
-}
-
 export interface LoginResponse {
-  token: string;
+  accessToken: string;      // ✅ Changed from 'token' to 'accessToken'
+  expiresIn: number;
+  tokenType: string;
   user: UserResponse;
 }
 
 export interface UserResponse {
-  id: string;
+  userId: string;            // ✅ Changed from 'id' to 'userId'
   email: string;
-  name: string;
+  userName: string;          // ✅ Changed from 'name' to 'userName'
   role: UserRole;
-  createdAt: string;
+  createdAt?: string;
 }

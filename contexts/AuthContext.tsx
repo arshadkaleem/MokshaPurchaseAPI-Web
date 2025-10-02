@@ -2,7 +2,6 @@
 
 /**
  * Authentication Context Provider
- * Manages user authentication state across the app
  */
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
@@ -35,11 +34,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const storedUser = localStorage.getItem('user');
         const token = localStorage.getItem('token');
 
+        console.log('🔍 Init Auth - Token:', token);
+        console.log('🔍 Init Auth - User:', storedUser);
+
         if (storedUser && token) {
-          setUser(JSON.parse(storedUser));
+          const parsedUser = JSON.parse(storedUser);
+          console.log('✅ User restored from localStorage:', parsedUser);
+          setUser(parsedUser);
+        } else {
+          console.log('⚠️ No token or user in localStorage');
         }
       } catch (err) {
-        console.error('Failed to parse stored user:', err);
+        console.error('❌ Failed to parse stored user:', err);
         localStorage.removeItem('user');
         localStorage.removeItem('token');
       } finally {
@@ -55,34 +61,49 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setError(null);
       setIsLoading(true);
 
+      console.log('🔐 Starting login process...');
       const response = await authApi.login(credentials);
 
-      // Store token and user
-      localStorage.setItem('token', response.token);
+      console.log('✅ Login successful, storing data...');
+      console.log('   - Token:', response.accessToken);
+      console.log('   - User:', response.user);
+
+      // Store token and user with correct field names
+      localStorage.setItem('token', response.accessToken);
       localStorage.setItem('user', JSON.stringify(response.user));
+
+      // Verify storage
+      console.log('✅ Stored in localStorage:');
+      console.log('   - token:', localStorage.getItem('token'));
+      console.log('   - user:', localStorage.getItem('user'));
 
       setUser(response.user);
 
       // Redirect to dashboard
+      console.log('✅ Redirecting to dashboard...');
       router.push('/dashboard');
     } catch (err) {
       const error = err as AxiosError<any>;
-
+      console.error('❌ Login failed:', error);
+      
       if (error.response?.data?.errors) {
         // Validation errors
-        const validationErrors = Object.values(
-          error.response.data.errors
-        ).flat();
+        const validationErrors = Object.values(error.response.data.errors).flat();
         setError(validationErrors[0] as string);
       } else if (error.response?.data?.detail) {
         // API error detail
         setError(error.response.data.detail);
+      } else if (error.response?.data?.message) {
+        // Custom error message
+        setError(error.response.data.message);
       } else if (error.response?.status === 401) {
         setError('Invalid email or password');
+      } else if (error.message) {
+        setError(error.message);
       } else {
         setError('Failed to login. Please try again.');
       }
-
+      
       throw err;
     } finally {
       setIsLoading(false);
@@ -90,6 +111,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = () => {
+    console.log('🚪 Logging out...');
     authApi.logout();
     setUser(null);
     router.push('/login');
