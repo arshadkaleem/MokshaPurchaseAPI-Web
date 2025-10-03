@@ -1,14 +1,6 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
+import { QueryProvider } from '@/lib/providers/QueryProvider';
 import { AuthProvider } from '@/contexts/AuthContext';
-
-const inter = Inter({ subsets: ['latin'] });
-
-export const metadata: Metadata = {
-  title: 'Moksha Purchase Management',
-  description: 'Purchase Order and Procurement Management System',
-};
+import './globals.css';
 
 export default function RootLayout({
   children,
@@ -17,9 +9,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <AuthProvider>{children}</AuthProvider>
+      <body>
+        <QueryProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </QueryProvider>
       </body>
     </html>
   );
-}
+} 

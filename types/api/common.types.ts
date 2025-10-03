@@ -15,7 +15,7 @@ export interface ApiResponse<T> {
  * Paginated API response wrapper
  */
 export interface PaginatedResponse<T> {
-  data: T[];
+  data: T[];              // ✅ Array of items
   pagination: {
     page: number;
     pageSize: number;
