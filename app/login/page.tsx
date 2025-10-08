@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/lib/contexts/auth-context';
@@ -23,17 +23,17 @@ import { AlertCircle } from 'lucide-react';
 
 /**
  * Login Page
- * 
+ *
  * C# equivalent: Login view with form
- * 
+ *
  * [HttpGet]
  * public IActionResult Login() => View();
- * 
+ *
  * [HttpPost]
  * public async Task<IActionResult> Login(LoginRequest model)
  */
 
-export default function LoginPage() {
+function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const { login } = useAuth();
 
@@ -150,5 +150,26 @@ export default function LoginPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold text-center">
+              Moksha Purchase Management
+            </CardTitle>
+            <CardDescription className="text-center">
+              Loading...
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }
