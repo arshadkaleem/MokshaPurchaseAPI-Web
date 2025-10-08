@@ -3,11 +3,15 @@ import { MobileSidebar } from '@/components/layout/mobile-sidebar';
 import { UserMenu } from '@/components/layout/user-menu';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 
+export const metadata = {
+  title: 'Moksha Purchase Management',
+};
+
 /**
  * Dashboard Layout
- * 
+ *
  * C# equivalent: _Layout.cshtml with sidebar
- * 
+ *
  * Structure:
  * ┌─────────────────────────────────┐
  * │ Sidebar │   Header (breadcrumb)  │
