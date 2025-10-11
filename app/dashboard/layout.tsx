@@ -2,7 +2,8 @@ import { Sidebar } from '@/components/layout/sidebar';
 import { MobileSidebar } from '@/components/layout/mobile-sidebar';
 import { UserMenu } from '@/components/layout/user-menu';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
-
+import { QueryProvider } from '@/lib/providers/query-provider';
+import { AuthProvider } from '@/lib/contexts/auth-context';
 export const metadata = {
   title: 'Moksha Purchase Management',
 };
@@ -28,6 +29,8 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
+       <AuthProvider>
+            <QueryProvider>
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar - Reduced width from w-64 to w-56 */}
       <aside className="hidden md:flex w-56 flex-shrink-0"> {/* Changed: w-64 to w-56 */}
@@ -57,5 +60,7 @@ export default function DashboardLayout({
         </main>
       </div>
     </div>
+    </QueryProvider>
+    </AuthProvider>
   );
 }
