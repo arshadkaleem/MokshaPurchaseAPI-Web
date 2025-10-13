@@ -2,7 +2,9 @@ import { QueryProvider } from '@/lib/providers/query-provider';
 import { AuthProvider } from '@/lib/contexts/auth-context';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
-
+export const metadata = {
+  title: 'Moksha Purchase Management',
+};
 export default function RootLayout({
   children,
 }: {
