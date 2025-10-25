@@ -67,6 +67,7 @@ export function CreateMaterialForm({ onSuccess }: CreateMaterialFormProps) {
       materialName: '',
       description: null,
       unitOfMeasure: '',
+      hsnCode: null,
     },
   });
 
@@ -160,6 +161,21 @@ export function CreateMaterialForm({ onSuccess }: CreateMaterialFormProps) {
             {form.formState.errors.description && (
               <p className="text-sm text-red-500">
                 {form.formState.errors.description.message}
+              </p>
+            )}
+          </div>
+
+          {/* HSN Code - Optional */}
+          <div className="space-y-2">
+            <Label htmlFor="hsnCode">HSN Code</Label>
+            <Input
+              id="hsnCode"
+              {...form.register('hsnCode')}
+              placeholder="e.g., 2501, 7214"
+            />
+            {form.formState.errors.hsnCode && (
+              <p className="text-sm text-red-500">
+                {form.formState.errors.hsnCode.message}
               </p>
             )}
           </div>

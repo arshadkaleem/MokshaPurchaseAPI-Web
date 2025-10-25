@@ -242,6 +242,7 @@ export default function MaterialsPage() {
                 <TableRow>
                   <TableHead>Material Name</TableHead>
                   <TableHead>Description</TableHead>
+                  <TableHead>HSN Code</TableHead>
                   <TableHead>Unit of Measure</TableHead>
                   <TableHead>Last Updated</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -250,9 +251,9 @@ export default function MaterialsPage() {
               <TableBody>
                 {data.data.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-10">
+                    <TableCell colSpan={6} className="text-center py-10">
                       <p className="text-muted-foreground">
-                        {filters.search 
+                        {filters.search
                           ? `No materials found matching "${filters.search}"`
                           : 'No materials found. Create your first material!'}
                       </p>
@@ -267,6 +268,9 @@ export default function MaterialsPage() {
                       <TableCell className="text-muted-foreground">
                         {truncateText(material.description)}
                       </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {material.hsnCode || 'N/A'}
+                      </TableCell>
                       <TableCell>
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                           {material.unitOfMeasure}
@@ -278,8 +282,8 @@ export default function MaterialsPage() {
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
                           {/* Edit Button */}
-                          <Button 
-                            variant="ghost" 
+                          <Button
+                            variant="ghost"
                             size="sm"
                             onClick={() => handleEdit(material.materialId)}
                           >

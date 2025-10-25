@@ -131,6 +131,21 @@ export function EditMaterialForm({
         )}
       </div>
 
+      {/* HSN Code - Optional */}
+      <div className="space-y-2">
+        <Label htmlFor="hsnCode">HSN Code</Label>
+        <Input
+          id="hsnCode"
+          {...form.register('hsnCode')}
+          placeholder="e.g., 2501, 7214"
+        />
+        {form.formState.errors.hsnCode && (
+          <p className="text-sm text-red-500">
+            {form.formState.errors.hsnCode.message}
+          </p>
+        )}
+      </div>
+
       {/* Unit of Measure - Required with Combobox */}
       <div className="space-y-2">
         <Label htmlFor="unitOfMeasure">

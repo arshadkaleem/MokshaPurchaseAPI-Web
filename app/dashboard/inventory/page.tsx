@@ -292,6 +292,7 @@ export default function InventoryPage() {
                 <TableRow>
                   <TableHead>Material Code</TableHead>
                   <TableHead>Material Name</TableHead>
+                  <TableHead>HSN Code</TableHead>
                   <TableHead className="text-right">Current Stock</TableHead>
                   <TableHead className="text-right">Min Stock</TableHead>
                   <TableHead className="text-right">Max Stock</TableHead>
@@ -304,7 +305,7 @@ export default function InventoryPage() {
               <TableBody>
                 {filteredData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={9} className="py-10 text-center">
+                    <TableCell colSpan={10} className="py-10 text-center">
                       <p className="text-muted-foreground">
                         {searchTerm
                           ? 'No materials found matching your search.'
@@ -325,6 +326,9 @@ export default function InventoryPage() {
                           {item.material.materialCode}
                         </TableCell>
                         <TableCell>{item.material.materialName}</TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {item.material.hsnCode || 'N/A'}
+                        </TableCell>
                         <TableCell className="text-right font-semibold">
                           {formatQuantity(
                             item.currentStock,

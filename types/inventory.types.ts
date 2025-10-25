@@ -29,6 +29,7 @@ export interface MaterialSummary {
   materialCode: string;
   unitOfMeasure: string;
   unitPrice: number;
+  hsnCode?: string | null;
 }
 
 /**

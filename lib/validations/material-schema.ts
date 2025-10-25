@@ -39,6 +39,12 @@ export const materialSchema = z.object({
     .string()
     .min(1, 'Unit of measure is required')
     .max(20, 'Unit of measure cannot exceed 20 characters'),
+
+  hsnCode: z
+    .string()
+    .max(50, 'HSN code cannot exceed 50 characters')
+    .optional()
+    .nullable(),
 });
 
 /**
@@ -57,5 +63,6 @@ export function convertMaterialToFormData(
     materialName: material.materialName || '',
     description: material.description || null,
     unitOfMeasure: material.unitOfMeasure || '',
+    hsnCode: material.hsnCode || null,
   };
 }

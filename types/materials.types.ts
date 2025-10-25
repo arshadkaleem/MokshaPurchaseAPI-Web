@@ -6,7 +6,7 @@
 /**
  * Material Response - What you GET from API
  * Matches: MaterialResponse from Swagger
- * 
+ *
  * C# equivalent:
  * public class MaterialResponse
  * {
@@ -14,6 +14,7 @@
  *     public string MaterialName { get; set; }
  *     public string? Description { get; set; }
  *     public string UnitOfMeasure { get; set; }
+ *     public string? HSNCode { get; set; }
  *     public DateTime CreatedAt { get; set; }
  *     public DateTime UpdatedAt { get; set; }
  * }
@@ -23,6 +24,7 @@ export interface MaterialResponse {
   materialName: string;
   description: string | null;
   unitOfMeasure: string;
+  hsnCode: string | null;
   createdAt: string;  // ISO date string
   updatedAt: string;  // ISO date string
 }
@@ -30,25 +32,28 @@ export interface MaterialResponse {
 /**
  * Create Material Request - What you POST
  * Matches: CreateMaterialRequest from Swagger
- * 
+ *
  * C# equivalent:
  * public class CreateMaterialRequest
  * {
  *     [Required]
  *     [MaxLength(100)]
  *     public string MaterialName { get; set; }
- *     
+ *
  *     public string? Description { get; set; }
- *     
+ *
  *     [Required]
  *     [MaxLength(20)]
  *     public string UnitOfMeasure { get; set; }
+ *
+ *     public string? HSNCode { get; set; }
  * }
  */
 export interface CreateMaterialRequest {
   materialName: string;        // Required, max 100
   description?: string | null; // Optional
   unitOfMeasure: string;       // Required, max 20
+  hsnCode?: string | null;     // Optional
 }
 
 /**

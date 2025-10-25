@@ -30,6 +30,7 @@ export interface PurchaseOrderItemResponse {
   materialId: number;
   materialName: string; // Populated from Material
   unitOfMeasure: string; // Populated from Material
+  hsnCode?: string | null; // Populated from Material
   quantity: number;
   unitPrice: number;
   lineTotal: number; // quantity × unitPrice

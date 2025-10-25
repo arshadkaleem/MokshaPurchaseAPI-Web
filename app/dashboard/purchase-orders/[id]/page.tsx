@@ -270,6 +270,7 @@ export default function PurchaseOrderDetailPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Material</TableHead>
+                    <TableHead>HSN Code</TableHead>
                     <TableHead>Unit</TableHead>
                     <TableHead className="text-right">Quantity</TableHead>
                     <TableHead className="text-right">Unit Price</TableHead>
@@ -279,7 +280,7 @@ export default function PurchaseOrderDetailPage() {
                 <TableBody>
                   {data.data.items.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={5} className="py-10 text-center">
+                      <TableCell colSpan={6} className="py-10 text-center">
                         <p className="text-muted-foreground">
                           No items in this purchase order.
                         </p>
@@ -290,6 +291,9 @@ export default function PurchaseOrderDetailPage() {
                       <TableRow key={item.purchaseOrderItemId}>
                         <TableCell className="font-medium">
                           {item.materialName}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {item.hsnCode || 'N/A'}
                         </TableCell>
                         <TableCell>{item.unitOfMeasure}</TableCell>
                         <TableCell className="text-right">
