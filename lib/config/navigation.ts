@@ -8,6 +8,7 @@ import {
   CreditCard,
   Warehouse,
   BarChart3,
+  UserCog,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -92,6 +93,12 @@ export const navItems: NavItem[] = [
     icon: BarChart3,
     description: 'Analytics and reports',
   },
+  {
+    title: 'User Management',
+    href: '/dashboard/users',
+    icon: UserCog,
+    description: 'Manage system users',
+  },
 ];
 
 /**
@@ -123,6 +130,12 @@ export const navSections: NavSection[] = [
     items: [
       navItems[7], // Inventory
       navItems[8], // Reports
+    ],
+  },
+  {
+    title: 'Administration',
+    items: [
+      navItems[9], // User Management
     ],
   },
 ];

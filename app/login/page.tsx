@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/lib/contexts/auth-context';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { loginSchema, type LoginFormData } from '@/lib/validations/auth-schema';
+import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -39,7 +40,7 @@ function LoginForm() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const from = searchParams.get('from') || '/dashboard/projects';
+  const from = searchParams.get('from') || '/dashboard';
 
   // Initialize form
   const form = useForm<LoginFormData>({
@@ -138,8 +139,21 @@ function LoginForm() {
             </form>
           </Form>
 
+          {/* Register Link */}
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{' '}
+              <Link
+                href="/register"
+                className="font-medium text-blue-600 hover:text-blue-500 hover:underline"
+              >
+                Create an account
+              </Link>
+            </p>
+          </div>
+
           {/* Test Credentials Info (Remove in production!) */}
-          <div className="mt-6 p-4 bg-blue-50 rounded-md border border-blue-200">
+          <div className="mt-4 p-4 bg-blue-50 rounded-md border border-blue-200">
             <p className="text-sm text-blue-800 font-medium mb-2">
               Test Credentials:
             </p>

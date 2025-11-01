@@ -14,10 +14,11 @@ import type { NextRequest } from 'next/server';
  */
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get('authToken')?.value || 
+  const token = request.cookies.get('authToken')?.value ||
                 checkLocalStorageToken(request);
-  
+
   const isLoginPage = request.nextUrl.pathname === '/login';
+  const isRegisterPage = request.nextUrl.pathname === '/register';
   const isProtectedRoute = request.nextUrl.pathname.startsWith('/dashboard');
   const isRootPath = request.nextUrl.pathname === '/';
 
@@ -37,8 +38,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // If trying to access login page with valid token → redirect to dashboard
-  if (isLoginPage && token) {
+  // If trying to access login or register page with valid token → redirect to dashboard
+  if ((isLoginPage || isRegisterPage) && token) {
     return NextResponse.redirect(new URL('/dashboard/projects', request.url));
   }
 

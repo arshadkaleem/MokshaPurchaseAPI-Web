@@ -1,16 +1,17 @@
 import apiClient from './client';
 import type { ApiResponse } from '@/types/api.types';
-import type { AuthResponse, LoginRequest, User } from '@/types/auth.types';
+import type { AuthResponse, LoginRequest, RegisterRequest, User } from '@/types/auth.types';
 
 /**
  * Authentication API Client
- * 
+ *
  * C# equivalent: IAuthService / AuthService
- * 
+ *
  * Like:
  * public interface IAuthService
  * {
  *     Task<AuthResponse> LoginAsync(LoginRequest request);
+ *     Task<AuthResponse> RegisterAsync(RegisterRequest request);
  *     Task<bool> LogoutAsync();
  *     Task<User> GetCurrentUserAsync();
  * }
@@ -20,7 +21,7 @@ export const authApi = {
   /**
    * Login
    * POST /api/v1/Auth/login
-   * 
+   *
    * C# equivalent:
    * [HttpPost("login")]
    * public async Task<IActionResult> Login(LoginRequest request)
@@ -34,9 +35,25 @@ export const authApi = {
   },
 
   /**
+   * Register
+   * POST /api/v1/Auth/register
+   *
+   * C# equivalent:
+   * [HttpPost("register")]
+   * public async Task<IActionResult> Register(RegisterRequest request)
+   */
+  register: async (data: RegisterRequest) => {
+    const response = await apiClient.post<ApiResponse<AuthResponse>>(
+      '/api/v1/Auth/register',
+      data
+    );
+    return response.data;
+  },
+
+  /**
    * Logout
    * POST /api/v1/Auth/logout
-   * 
+   *
    * C# equivalent:
    * [HttpPost("logout")]
    * public async Task<IActionResult> Logout()
@@ -51,7 +68,7 @@ export const authApi = {
   /**
    * Get current user
    * GET /api/v1/Auth/me
-   * 
+   *
    * C# equivalent:
    * [HttpGet("me")]
    * public async Task<IActionResult> GetCurrentUser()
